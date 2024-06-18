@@ -71,7 +71,7 @@ export class AcoesComponent implements OnInit{
 
 
   excluir(){
-    this.#apibackendService.httpListFuncionario$(this.serverHost+"/remover/"+this.nomeExcluir).subscribe({
+    this.#apibackendService.httpListFuncionarioExcluir$(this.serverHost+"/remover/"+this.nomeExcluir).subscribe({
       next: (next) => this.getFuncionarios.set(next),
       error: (error) => console.log(error),
       complete: () => console.log('complete')

@@ -39,6 +39,10 @@ export class BackendService {
     return this.#http.get<Funcionario[]>(url);
   }
 
+  public httpListFuncionarioExcluir$(url:string): Observable<Array<Funcionario>>{
+    return this.#http.delete<Funcionario[]>(url);
+  }
+
   public httpListFuncionariosAniversario$(url:string): Observable<Array<Array<Funcionario>>>{
     return this.#http.get<Funcionario[][]>(url);
   }
