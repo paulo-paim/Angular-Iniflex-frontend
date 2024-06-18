@@ -1,0 +1,257 @@
+
+
+
+
+<!-- -->
+
+<!-- -->
+<div class="container col-md-10 offset-md-1">
+    <h1>Lista de Funcionários</h1>
+    <br>
+    <table class="table">
+        <tr>
+            <th>Nome</th>
+            <th>Data Nascimento</th>
+            <th>Salário</th>
+            <th>Função</th>
+        </tr>
+    
+    
+        @for(item of getFuncionarios(); track item){
+            <tr>
+                <td>{{item.nome}}</td>
+                <td>{{item.dataNascimento}}</td>
+                <td>{{item.salario}}</td>
+                <td>{{item.funcao}}</td>
+    
+    
+            </tr>
+        } @empty{
+            <li>Não existem dados!</li>
+        }
+    
+    
+    </table>
+    <br>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Excluir Funcionário</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" [(ngModel)]="nomeExcluir" placeholder="Nome a ser excluido" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <button (click)="excluir()" class="btn btn-primary">Excluir</button><br>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Aumentar Salário</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="number" [(ngModel)]="taxaAumento" placeholder="Proporção do Aumento" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <button (click)="aumentarSalario()" class="btn btn-primary">Aumentar Salario</button><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Visualizar Por Função</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    <select  name="funcaoSelecionada" id="funcaoSelecionada" [(ngModel)]="funcaoSelecionada" class="form-control">
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="">Todos</option>
+                        <option value="/Diretor">Diretor</option>
+                        <option value="/Recepcionista">Recepcionista</option>
+                        <option value="/Operador">Operador</option>
+                        <option value="/Contador">Contador</option>
+                        <option value="/Gerente">Gerente</option>
+                        <option value="/Eletrecista">Eletrecista</option>
+                    
+                      </select>
+                </div>
+                <div class="col-md-4">
+                    <button (click)="selecionarFuncao()" class="btn btn-primary">Visualizar</button><br>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Funções</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <button (click)="modificarExibicao()" class="btn btn-primary">Alterar Exibição</button><br>
+                </div>
+                <div class="col-md-3">
+                    <button (click)="ordenarOrdemAlfabetica()" class="btn btn-primary">Ordem Alfabética</button>
+                </div>
+                <div class="col-md-3">
+                    <button (click)="buscarFuncionarioSalarioMinimo()" class="btn btn-primary">Calcular salarios minimos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Funcionário Mais Velho</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <button (click)="buscarFuncionarioMaisVelho()" class="btn btn-primary">Consultar Funcionario Mais velho</button>
+                </div>
+                <div class="col-md-4">
+                    <p [hidden]="PMaisVelho">Funcionário: {{ getFuncionarioMaisVelho()?.nome}} - Idade {{ getFuncionarioMaisVelho()?.idade }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Salários Totais</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <button (click)="buscarSalariosTotais()" class="btn btn-primary">Salários Totais</button>
+                </div>
+                <div class="col-md-4">
+                    <p [hidden]="PSalariosTotais">Total: R$ {{ getSalariosTotais()?.salarioTotal}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Aniversariantes</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" [(ngModel)]="mesesAniversario" placeholder="Meses de aniversario" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <button (click)="consultarAniversariantes()" class="btn btn-primary">Consultar Aniversariantes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><hr>
+
+
+    
+
+
+
+    <table [hidden]="TableSalariosMinimos" class="table">
+        <h2 class="centro">Quantidade de Salários Mínimos</h2>
+        <tr>
+            <th>Nome</th>
+            <th>Data Nascimento</th>
+            <th>Salário</th>
+            <th>Função</th>
+            <th>Salários Mínimos</th>
+        </tr>
+    
+    
+        @for(item of getFuncionariosSalarioMinimo(); track item){
+            <tr>
+                <td>{{item.nome}}</td>
+                <td>{{item.dataNascimento}}</td>
+                <td>{{item.salario}}</td>
+                <td>{{item.funcao}}</td>
+                <td>{{ item.salariosMinimos}}</td>
+    
+    
+            </tr>
+        } @empty{
+            <li>Não existem dados!</li>
+        }
+    
+    
+    </table>
+
+
+
+
+
+
+
+
+
+    <table [hidden]="exibirTableAniversariantes" class="table">
+        <h2 class="centro">Lista de Aniversariantes</h2>
+        <tr>
+            <th>Nome</th>
+            <th>Data Nascimento</th>
+            <th>Salário</th>
+            <th>Função</th>
+        </tr>
+    
+    
+        @for(lista of getFuncionariosAniversariantes(); track lista){
+
+            @for( aniversariantes of lista; track aniversariantes){
+                <tr>
+                    <td>{{aniversariantes.nome}}</td>
+                    <td>{{aniversariantes.dataNascimento}}</td>
+                    <td>{{aniversariantes.salario}}</td>
+                    <td>{{aniversariantes.funcao}}</td>
+        
+        
+                </tr>
+            }
+            
+        } @empty{
+            <li>Não existem dados!</li>
+        }
+    
+    
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
